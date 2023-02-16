@@ -3,10 +3,10 @@
     internal class Product
     {
         public string ID { get; set; }
-        public string neme { get; set; }
-        public int amount { get; set; }
-        public decimal price { get; set; }
-        public string category { get; set; }
+        public string Neme { get; set; }
+        public int Amount { get; set; }
+        public decimal Price { get; set; }
+        public string Category { get; set; }
 
     }
 }

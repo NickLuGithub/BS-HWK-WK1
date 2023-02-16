@@ -37,7 +37,9 @@ namespace Test_01
                 17. 製作一頁 4 筆總共 5 頁的分頁選擇器
             */
 
-            List<Product> _Product = new List<Product>();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+
+            List<Product> ProductListt = new List<Product>();
 
             // 讀取資料
             string fileName = @"product.csv";
@@ -52,21 +54,37 @@ namespace Test_01
                     {
                         string[] list;
                         list = temp.Split(',');
-                        _Product.Add(new Product()
+                        ProductListt.Add(new Product()
                         {
                             ID = list[0],
-                            neme = list[1],
-                            amount = Convert.ToInt32(list[2]),
-                            price = Convert.ToDecimal(list[3]),
-                            category = list[4],
+                            Neme = list[1],
+                            Amount = Convert.ToInt32(list[2]),
+                            Price = Convert.ToDecimal(list[3]),
+                            Category = list[4],
                         });
                     }
                 }
             }
             fs.Close();
 
-            Display(_Product);
+            Display(ProductListt);
+            Console.WriteLine($"所有商品的總價格 : {ProductListt.Sum(x => x.Price)}");
+            Console.WriteLine($"所有商品的平均價格 : {ProductListt.Average(x => x.Price)}");
+            Console.WriteLine($"商品的總數量 : {ProductListt.Sum(x => x.Amount)}");
+            Console.WriteLine($"商品的平均數量 : {ProductListt.Average(x => x.Amount)}");
 
+
+            //var categoryList = ProductListt.GroupBy(x => x.Category);
+
+            //foreach (var category in categoryList)
+            //{
+            //    Console.WriteLine($"{category.Key}類商品\n");
+            //    foreach (var item in category)
+            //    {
+            //        Console.WriteLine($"\t{item.Neme}");
+            //    }
+            //    Console.WriteLine();
+            //}
             Console.ReadLine(); 
         }
 
@@ -74,7 +92,7 @@ namespace Test_01
         {
             foreach(Product product in p)
             {
-                Console.WriteLine($"{product.ID}, {product.neme}, {product.price}, {product.category}, {product.amount}");
+                Console.WriteLine($"{product.ID, 4}\t{product.Price,10}元\t剩餘數量{product.Amount,10} 個\t{product.Category}\t{product.Neme}\n");
             }
         }
     }
