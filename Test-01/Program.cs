@@ -1,6 +1,9 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,7 +37,45 @@ namespace Test_01
                 17. 製作一頁 4 筆總共 5 頁的分頁選擇器
             */
 
-            
+            List<Product> _Product = new List<Product>();
+
+            // 讀取資料
+            string fileName = @"product.csv";
+            FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+
+            using(StreamReader sr = new StreamReader(fs))
+            {
+                string temp;
+                while ((temp = sr.ReadLine()) != null)
+                {
+                    if(temp != "商品編號,商品名稱,商品數量,價格,商品類別")
+                    {
+                        string[] list;
+                        list = temp.Split(',');
+                        _Product.Add(new Product()
+                        {
+                            ID = list[0],
+                            neme = list[1],
+                            amount = Convert.ToInt32(list[2]),
+                            price = Convert.ToDecimal(list[3]),
+                            category = list[4],
+                        });
+                    }
+                }
+            }
+            fs.Close();
+
+            Display(_Product);
+
+            Console.ReadLine(); 
+        }
+
+        static void Display(List<Product> p)
+        {
+            foreach(Product product in p)
+            {
+                Console.WriteLine($"{product.ID}, {product.neme}, {product.price}, {product.category}, {product.amount}");
+            }
         }
     }
 }
