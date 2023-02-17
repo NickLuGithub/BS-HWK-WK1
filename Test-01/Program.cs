@@ -208,15 +208,88 @@ namespace Test_01
 
                 foreach (var item in maxP)
                 {
-                    Console.WriteLine(string.Format("{0}類最貴商品為{1}元\n", prod.Key, item.Name));
+                    Console.WriteLine(string.Format("{0}類最貴商品為 {1} 價格為 {2}元\n", prod.Key, item.Name, item.Price));
                 }
             }
             Console.WriteLine();
-            // 15.找出各商品類別底下，最貴的商品
+            // 15.找出各商品類別底下，最便宜的商品
+            Console.WriteLine("15.找出各商品類別底下，最便宜的商品");
+            foreach (var prod in categoryList)
+            {
+                var maxP =
+                    from _prod in prod
+                    where _prod.Price == prod.Min(x => x.Price)
+                    select _prod;
+
+                foreach (var item in maxP)
+                {
+                    Console.WriteLine(string.Format("{0}類最貴商品為 {1} 價格為 {2} 元\n", prod.Key, item.Name, item.Price));
+                }
+            }
+            Console.WriteLine();
+
             // 16.找出價格小於等於 10000 的商品
+            Console.WriteLine("16. 找出價格小於等於 10000 的商品");
+            var minPList = ProductList.Where(x => x.Price <= 10000);
+            foreach (Product product in minPList)
+            {
+                Console.WriteLine($"{product.ID,4}\t{product.Price,10}元\t剩餘數量{product.Amount,10} 個\t{product.Category}\t{product.Name}\n");
+            }
+            DisplayClearNext();
+
             // 17.製作一頁 4 筆總共 5 頁的分頁選擇器
+            bool isOut = false;
+            int page = 1;
+            while (!isOut)
+            {
+                Console.WriteLine($"目前顯示第{page}頁總共5頁");
+                switch (page)
+                {
+                    case 1:
+                        DisplayProd(ProductList.Take(4));
+                        break;
+                    case 2:
+                        DisplayProd(ProductList.Skip(4).Take(4));
+                        break;
+                    case 3:
+                        DisplayProd(ProductList.Skip(8).Take(4));
+                        break;
+                    case 4:
+                        DisplayProd(ProductList.Skip(12).Take(4));
+                        break;
+                    case 5:
+                        DisplayProd(ProductList.Skip(16).Take(4));
+                        break;
+                    default:
+                        Console.WriteLine("查無此頁面");
+                        break;
+                }
+                Console.WriteLine("請問你要去第幾頁，離開請輸入(out/OUT)");
+                string temp = Console.ReadLine();
+                if (temp == "out" | temp == "OUT")
+                {
+                    isOut = true;
+                }
+                else
+                {
+                    int temp2 = Convert.ToInt32(temp);
+                    if(temp2 > 1 | temp2 < 5)
+                    {
+                        page = temp2;
+                    }
+                }
+                Console.Clear();
+            }
 
             Console.ReadLine();
+        }
+
+        private static void DisplayProd(IEnumerable<Product> item)
+        {
+            foreach (var product in item)
+            {
+                Console.WriteLine($"{product.ID,4}\t{product.Price,10}元\t剩餘數量{product.Amount,10} 個\t{product.Category}\t{product.Name}\n");
+            }
         }
 
         private static void printAllCategoryList(IEnumerable<IGrouping<string, Product>> categoryList)
