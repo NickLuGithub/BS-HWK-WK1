@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -76,17 +77,17 @@ namespace Test_01
             printAllCategoryList(categoryList);
             DisplayClearNext();
 
-            // 1
-            Console.WriteLine($"所有商品的總價格 : {ProductList.Sum(x => x.Price)}");
+            // 1.計算所有商品的總價格
+            Console.WriteLine($"1. 所有商品的總價格 : {ProductList.Sum(x => x.Price)}\n");
 
-            // 2
-            Console.WriteLine($"所有商品的平均價格 : {ProductList.Average(x => x.Price)}");
+            // 2.計算所有商品的平均價格
+            Console.WriteLine($"2. 所有商品的平均價格 : {ProductList.Average(x => x.Price)}\n");
 
-            // 3
-            Console.WriteLine($"商品的總數量 : {ProductList.Sum(x => x.Amount)}");
+            // 3.計算商品的總數量
+            Console.WriteLine($"3. 商品的總數量 : {ProductList.Sum(x => x.Amount)}\n");
 
-            // 4
-            Console.WriteLine($"商品的平均數量 : {ProductList.Average(x => x.Amount)}");
+            // 4.計算商品的平均數量
+            Console.WriteLine($"4. 商品的平均數量 : {ProductList.Average(x => x.Amount)} \n");
 
             // 5.找出哪一項商品最貴
             var maxProductName =
@@ -96,7 +97,7 @@ namespace Test_01
 
             foreach (var prod in maxProductName)
             {
-                Console.WriteLine($"最貴商品 : {prod.Name}");
+                Console.WriteLine($"5. 最貴商品 : {prod.Name}\n");
             }
 
             // 6.找出哪一項商品最便宜
@@ -107,7 +108,7 @@ namespace Test_01
 
             foreach (var prod in minProductName)
             {
-                Console.WriteLine($"最便宜商品 : {prod.Name}");
+                Console.WriteLine($"6. 最便宜商品 : {prod.Name} \n");
             }
 
             // 7.計算產品類別為 3C 的商品總價
@@ -115,11 +116,11 @@ namespace Test_01
             {
                 if(prod.Key == "3C")
                 {
-                    Console.WriteLine($"3C 商品總價為 {(prod.Sum(x => x.Price))}");
+                    Console.WriteLine($"7. 3C 商品總價為 {prod.Sum(x => x.Price)} \n");
                 }
             }
-            // 8.計算產品類別為飲料及食品的商品價格
 
+            // 8.計算產品類別為飲料及食品的商品價格
             decimal Total = 0;
             foreach (var prod in categoryList)
             {                
@@ -128,8 +129,61 @@ namespace Test_01
                     Total += prod.Sum(x => x.Price);                 
                 }
             }
-            Console.WriteLine($"飲料及食品商品總價為 {Total}");
+            Console.WriteLine($"8. 飲料及食品商品總價為 {Total} \n");
 
+            // 9.找出所有商品類別為食品，而且商品數量大於 100 的商品
+            Console.WriteLine("9. 找出所有商品類別為食品，而且商品數量大於 100 的商品");
+            foreach (var prod in categoryList)
+            {
+                if (prod.Key == "食品")
+                {
+                    var item = prod.Where(x => x.Amount > 100);
+                    
+                    if (item != null)
+                    {
+                        Console.WriteLine($"食品庫存有100件以上商品有");
+                        foreach (var item2 in item)
+                        {
+                            Console.Write($"\t{item2.Name}\n");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"沒有食品庫存有100件以上商品\n");
+                    }
+                }
+            }
+            Console.WriteLine();
+
+            // 10.找出各個商品類別底下有哪些商品的價格是大於 1000 的商品
+            // 11.呈上題，請計算該類別底下所有商品的平均價格
+            Console.WriteLine("10. 找出各個商品類別底下有哪些商品的價格是大於 1000 的商品\n11.呈上題，請計算該類別底下所有商品的平均價格");
+            foreach (var prod in categoryList)
+            {
+                var item = prod.Where(x => x.Price > 1000);
+
+                if (item != null)
+                {
+                    Console.WriteLine($"{prod.Key}有價格是大於 1000 的商品，如下");
+                    foreach (var item2 in item)
+                    {
+                        Console.Write($"  {item2.Name}\n");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"{prod.Key}沒有價格是大於 1000 的商品");
+                }
+                Console.WriteLine(string.Format("{0}類平均價錢為{1, 0:C2}元\n", prod.Key, prod.Average(x => x.Price)));
+            }
+            Console.WriteLine();
+
+            // 12.依照商品價格由高到低排序
+            // 13.依照商品數量由低到高排序
+            // 14.找出各商品類別底下，最貴的商品
+            // 15.找出各商品類別底下，最貴的商品
+            // 16.找出價格小於等於 10000 的商品
+            // 17.製作一頁 4 筆總共 5 頁的分頁選擇器
 
             Console.ReadLine();
         }
