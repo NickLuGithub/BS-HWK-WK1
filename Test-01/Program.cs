@@ -40,25 +40,25 @@ namespace Test_01
 
             Console.ForegroundColor = ConsoleColor.Yellow;
 
-            List<Product> ProductListt = new List<Product>();
+            List<Product> ProductList = new List<Product>();
 
             // 讀取資料
             string fileName = @"product.csv";
             FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
 
-            using(StreamReader sr = new StreamReader(fs))
+            using (StreamReader sr = new StreamReader(fs))
             {
                 string temp;
                 while ((temp = sr.ReadLine()) != null)
                 {
-                    if(temp != "商品編號,商品名稱,商品數量,價格,商品類別")
+                    if (temp != "商品編號,商品名稱,商品數量,價格,商品類別")
                     {
                         string[] list;
                         list = temp.Split(',');
-                        ProductListt.Add(new Product()
+                        ProductList.Add(new Product()
                         {
                             ID = list[0],
-                            Neme = list[1],
+                            Name = list[1],
                             Amount = Convert.ToInt32(list[2]),
                             Price = Convert.ToDecimal(list[3]),
                             Category = list[4],
@@ -69,48 +69,85 @@ namespace Test_01
             fs.Close();
 
             Console.WriteLine("商品總攬");
-            Display(ProductListt);
+            Display(ProductList);
+            DisplayClearNext();
+            
+            var categoryList = ProductList.GroupBy(x => x.Category);
+            printAllCategoryList(categoryList);
+            DisplayClearNext();
+
+            // 1
+            Console.WriteLine($"所有商品的總價格 : {ProductList.Sum(x => x.Price)}");
+
+            // 2
+            Console.WriteLine($"所有商品的平均價格 : {ProductList.Average(x => x.Price)}");
+
+            // 3
+            Console.WriteLine($"商品的總數量 : {ProductList.Sum(x => x.Amount)}");
+
+            // 4
+            Console.WriteLine($"商品的平均數量 : {ProductList.Average(x => x.Amount)}");
+
+            // 5.找出哪一項商品最貴
+            var maxProductName =
+                from prod in ProductList
+                where prod.Price == ProductList.Max(x => x.Price)
+                select prod;
+
+            foreach (var prod in maxProductName)
+            {
+                Console.WriteLine($"最貴商品 : {prod.Name}");
+            }
+
+            // 6.找出哪一項商品最便宜
+            var minProductName =
+                from prod in ProductList
+                where prod.Price == ProductList.Min(x => x.Price)
+                select prod;
+
+            foreach (var prod in minProductName)
+            {
+                Console.WriteLine($"最便宜商品 : {prod.Name}");
+            }
+
+            // 7.計算產品類別為 3C 的商品總價
+
+            // 8.計算產品類別為飲料及食品的商品價格
+
+            Console.WriteLine($"商品的平均數量 : {ProductList.Average(x => x.Amount)}");
+            Console.WriteLine($"商品的平均數量 : {ProductList.Average(x => x.Amount)}");
+            Console.WriteLine($"商品的平均數量 : {ProductList.Average(x => x.Amount)}");
+
+
+
+            Console.ReadLine();
+        }
+
+        private static void printAllCategoryList(IEnumerable<IGrouping<string, Product>> categoryList)
+        {
+            foreach (var category in categoryList)
+            {
+                Console.WriteLine($"{category.Key}類商品\n");
+                foreach (var item in category)
+                {
+                    Console.WriteLine($"\t{item.Name}");
+                }
+                Console.WriteLine();
+            }
+        }
+
+        private static void DisplayClearNext()
+        {
             Console.WriteLine("按下任一鍵下一頁");
             Console.ReadLine();
             Console.Clear();
-            // 1
-            Console.WriteLine($"所有商品的總價格 : {ProductListt.Sum(x => x.Price)}");
-            // 2
-            Console.WriteLine($"所有商品的平均價格 : {ProductListt.Average(x => x.Price)}");
-            // 3
-            Console.WriteLine($"商品的總數量 : {ProductListt.Sum(x => x.Amount)}");
-            // 4
-            Console.WriteLine($"商品的平均數量 : {ProductListt.Average(x => x.Amount)}");
-            // 5.找出哪一項商品最貴
-            Console.WriteLine($"最貴商品 : {ProductListt.Max(x => x.Price)}");
-            // 6.找出哪一項商品最便宜
-            // 7.計算產品類別為 3C 的商品總價
-            // 8.計算產品類別為飲料及食品的商品價格
-
-            Console.WriteLine($"商品的平均數量 : {ProductListt.Average(x => x.Amount)}");
-            Console.WriteLine($"商品的平均數量 : {ProductListt.Average(x => x.Amount)}");
-            Console.WriteLine($"商品的平均數量 : {ProductListt.Average(x => x.Amount)}");
-
-
-            //var categoryList = ProductListt.GroupBy(x => x.Category);
-
-            //foreach (var category in categoryList)
-            //{
-            //    Console.WriteLine($"{category.Key}類商品\n");
-            //    foreach (var item in category)
-            //    {
-            //        Console.WriteLine($"\t{item.Neme}");
-            //    }
-            //    Console.WriteLine();
-            //}
-            Console.ReadLine(); 
         }
 
         static void Display(List<Product> p)
         {
             foreach(Product product in p)
             {
-                Console.WriteLine($"{product.ID, 4}\t{product.Price,10}元\t剩餘數量{product.Amount,10} 個\t{product.Category}\t{product.Neme}\n");
+                Console.WriteLine($"{product.ID, 4}\t{product.Price,10}元\t剩餘數量{product.Amount,10} 個\t{product.Category}\t{product.Name}\n");
             }
         }
     }
