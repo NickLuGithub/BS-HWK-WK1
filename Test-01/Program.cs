@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -67,10 +68,27 @@ namespace Test_01
             }
             fs.Close();
 
+            Console.WriteLine("商品總攬");
             Display(ProductListt);
+            Console.WriteLine("按下任一鍵下一頁");
+            Console.ReadLine();
+            Console.Clear();
+            // 1
             Console.WriteLine($"所有商品的總價格 : {ProductListt.Sum(x => x.Price)}");
+            // 2
             Console.WriteLine($"所有商品的平均價格 : {ProductListt.Average(x => x.Price)}");
+            // 3
             Console.WriteLine($"商品的總數量 : {ProductListt.Sum(x => x.Amount)}");
+            // 4
+            Console.WriteLine($"商品的平均數量 : {ProductListt.Average(x => x.Amount)}");
+            // 5.找出哪一項商品最貴
+            Console.WriteLine($"最貴商品 : {ProductListt.Max(x => x.Price)}");
+            // 6.找出哪一項商品最便宜
+            // 7.計算產品類別為 3C 的商品總價
+            // 8.計算產品類別為飲料及食品的商品價格
+
+            Console.WriteLine($"商品的平均數量 : {ProductListt.Average(x => x.Amount)}");
+            Console.WriteLine($"商品的平均數量 : {ProductListt.Average(x => x.Amount)}");
             Console.WriteLine($"商品的平均數量 : {ProductListt.Average(x => x.Amount)}");
 
 
