@@ -210,7 +210,6 @@ namespace Test_01
                 {
                     Console.WriteLine(string.Format("{0}類最貴商品為{1}元\n", prod.Key, item.Name));
                 }
-                
             }
             Console.WriteLine();
             // 15.找出各商品類別底下，最貴的商品
