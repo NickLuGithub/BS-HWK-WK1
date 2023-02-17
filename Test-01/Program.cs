@@ -44,7 +44,7 @@ namespace Test_01
             List<Product> ProductList = new List<Product>();
 
             // 讀取資料
-            string fileName = @"product.csv";
+            string fileName = @"..\..\product.csv";
             FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
 
             using (StreamReader sr = new StreamReader(fs))
@@ -177,10 +177,42 @@ namespace Test_01
                 Console.WriteLine(string.Format("{0}類平均價錢為{1, 0:C2}元\n", prod.Key, prod.Average(x => x.Price)));
             }
             Console.WriteLine();
+            DisplayClearNext();
 
             // 12.依照商品價格由高到低排序
+            Console.WriteLine("12. 依照商品價格由高到低排序");
+            var sortProd = ProductList.OrderByDescending(x => x.Price);
+            foreach (Product product in sortProd)
+            {
+                Console.WriteLine($"{product.ID,4}\t{product.Price,10}元\t剩餘數量{product.Amount,10} 個\t{product.Category}\t{product.Name}\n");
+            }
+            DisplayClearNext();
+
             // 13.依照商品數量由低到高排序
+            Console.WriteLine("13.依照商品數量由低到高排序");
+            sortProd = ProductList.OrderByDescending(x => 1/x.Price);
+            foreach (Product product in sortProd)
+            {
+                Console.WriteLine($"{product.ID,4}\t{product.Price,10}元\t剩餘數量{product.Amount,10} 個\t{product.Category}\t{product.Name}\n");
+            }
+            DisplayClearNext();
+
             // 14.找出各商品類別底下，最貴的商品
+            Console.WriteLine("14.找出各商品類別底下，最貴的商品");
+            foreach (var prod in categoryList)
+            {
+                var maxP =
+                    from _prod in prod
+                    where _prod.Price == prod.Max(x => x.Price)
+                    select _prod;
+
+                foreach (var item in maxP)
+                {
+                    Console.WriteLine(string.Format("{0}類最貴商品為{1}元\n", prod.Key, item.Name));
+                }
+                
+            }
+            Console.WriteLine();
             // 15.找出各商品類別底下，最貴的商品
             // 16.找出價格小於等於 10000 的商品
             // 17.製作一頁 4 筆總共 5 頁的分頁選擇器
