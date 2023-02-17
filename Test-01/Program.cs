@@ -111,13 +111,24 @@ namespace Test_01
             }
 
             // 7.計算產品類別為 3C 的商品總價
-
+            foreach (var prod in categoryList)
+            {
+                if(prod.Key == "3C")
+                {
+                    Console.WriteLine($"3C 商品總價為 {(prod.Sum(x => x.Price))}");
+                }
+            }
             // 8.計算產品類別為飲料及食品的商品價格
 
-            Console.WriteLine($"商品的平均數量 : {ProductList.Average(x => x.Amount)}");
-            Console.WriteLine($"商品的平均數量 : {ProductList.Average(x => x.Amount)}");
-            Console.WriteLine($"商品的平均數量 : {ProductList.Average(x => x.Amount)}");
-
+            decimal Total = 0;
+            foreach (var prod in categoryList)
+            {                
+                if (prod.Key == "飲料" | prod.Key == "食品")
+                {
+                    Total += prod.Sum(x => x.Price);                 
+                }
+            }
+            Console.WriteLine($"飲料及食品商品總價為 {Total}");
 
 
             Console.ReadLine();
