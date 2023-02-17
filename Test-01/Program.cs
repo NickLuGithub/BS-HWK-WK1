@@ -138,19 +138,8 @@ namespace Test_01
                 if (prod.Key == "食品")
                 {
                     var item = prod.Where(x => x.Amount > 100);
-                    
-                    if (item != null)
-                    {
-                        Console.WriteLine($"食品庫存有100件以上商品有");
-                        foreach (var item2 in item)
-                        {
-                            Console.Write($"\t{item2.Name}\n");
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine($"沒有食品庫存有100件以上商品\n");
-                    }
+
+                    ByItem(item);
                 }
             }
             Console.WriteLine();
@@ -282,6 +271,22 @@ namespace Test_01
             }
 
             Console.ReadLine();
+        }
+
+        private static void ByItem(IEnumerable<Product> item)
+        {
+            if (item != null)
+            {
+                Console.WriteLine($"食品庫存有100件以上商品有");
+                foreach (var item2 in item)
+                {
+                    Console.Write($"\t{item2.Name}\n");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"沒有食品庫存有100件以上商品\n");
+            }
         }
 
         private static void DisplayProd(IEnumerable<Product> item)
