@@ -12,12 +12,11 @@ namespace Tset_2_1A2B
         static void Main(string[] args)
         {
             int[] number = new int[4];
-            List<char> numberList = new List<char>();
-            int[] input = new int[4];
             int a = 0, b = 0;
-            var rand = new Random();
+            string numberList;
             bool isPlay = true;
             bool isA = true;
+            var rand = new Random();
 
             while (isPlay)
             {
@@ -34,19 +33,14 @@ namespace Tset_2_1A2B
                     }
                 }
 
-                foreach(var item in number)
-                {
-                    numberList.Add((char)item);
-                }
-                
-                number = new int[4] { 1, 2, 3, 4 };
+                numberList = number[0].ToString() + number[1].ToString() + number[2].ToString() + number[3].ToString();
                 isA = false;
 
                 while (!isA)
                 {
                     Console.WriteLine("請輸入四個數字:");
 
-                    var inputList = Console.ReadLine().ToList();
+                    var inputList = Console.ReadLine();
 
                     foreach (var item in inputList)
                     {
@@ -57,16 +51,35 @@ namespace Tset_2_1A2B
                         Console.WriteLine(item);
                     }
 
-                    var k = numberList.Union(inputList);
+                    var k = numberList.Intersect(inputList);
                     b = k.Count();
-                    Console.WriteLine($"{a}A{b}B");
                     if (b > 0)
                     {
                         a += k.Where(x => numberList.IndexOf(x) == inputList.IndexOf(x)).Count();
                         b = b - a;
                     }
 
-                    Console.WriteLine($"{a}A{b}B");
+                    Console.Write("判定結果是");
+                    Console.Write(Convert.ToString(a) + "A");
+                    Console.Write(Convert.ToString(b) + "B");
+
+                    if (a == 4)
+                    {
+                        Console.WriteLine("恭喜你！猜對了！！");
+
+                        Console.WriteLine("你要繼續玩嗎？(y/n):");
+                        string temp = Console.ReadLine();
+                        isA = true;
+                        if ((temp == "n") | (temp == "N"))
+                        {
+                            isPlay = true;
+                            Console.WriteLine("遊戲結束，下次再來玩喔～");
+                        }
+                    }
+
+                    a = 0;
+                    b = 0;
+
                 }
             }
 
