@@ -7,7 +7,7 @@
     <ProjectGuid>{F8E69495-B482-4B02-9BE1-37479B6A1AFA}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Tset_2_1A2B</RootNamespace>
-    <AssemblyName>Tset_2_1A2B</AssemblyName>
+    <AssemblyName>Tset-2-1A2B</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

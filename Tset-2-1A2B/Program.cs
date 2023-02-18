@@ -8,9 +8,11 @@ namespace Tset_2_1A2B
 {
     internal class Program
     {
+        private static int n = 4;
         static void Main(string[] args)
         {
             int[] number = new int[4];
+            List<char> numberList = new List<char>();
             int[] input = new int[4];
             int a = 0, b = 0;
             var rand = new Random();
@@ -19,7 +21,7 @@ namespace Tset_2_1A2B
 
             while (isPlay)
             {
-                /*
+                
                 for (int i = 0; i < n; i++)
                 {
                     number[i] = rand.Next(0, 9);
@@ -31,8 +33,12 @@ namespace Tset_2_1A2B
                         }
                     }
                 }
-                */
 
+                foreach(var item in number)
+                {
+                    numberList.Add((char)item);
+                }
+                
                 number = new int[4] { 1, 2, 3, 4 };
                 isA = false;
 
@@ -40,33 +46,27 @@ namespace Tset_2_1A2B
                 {
                     Console.WriteLine("請輸入四個數字:");
 
-                    int temp;
-                    int k = 0;
-                    temp = Convert.ToInt32(Console.ReadLine());
-                    int wqeqw;
-                    if (temp < 1000)
+                    var inputList = Console.ReadLine().ToList();
+
+                    foreach (var item in inputList)
                     {
-                        input[3] = 0;
-                        k = 1;
+                        Console.WriteLine(item);
                     }
-                    for (int i = n - k - 1; i >= 0; i--)
+                    foreach (var item in numberList)
                     {
-                        input[i] = temp % 10;
-                        temp /= 10;
+                        Console.WriteLine(item);
+                    }
+
+                    var k = numberList.Union(inputList);
+                    b = k.Count();
+                    Console.WriteLine($"{a}A{b}B");
+                    if (b > 0)
+                    {
+                        a += k.Where(x => numberList.IndexOf(x) == inputList.IndexOf(x)).Count();
+                        b = b - a;
                     }
 
                     Console.WriteLine($"{a}A{b}B");
-                    if (a == 4)
-                    {
-                        Console.WriteLine("恭喜破關，是否再玩一次(Y/N)");
-                        isA = true;
-                        string PNext = Console.ReadLine();
-                        if (!((PNext == "y") | (PNext == "Y"))) isPlay = false;
-                    }
-                    else
-                    {
-
-                    }
                 }
             }
 
